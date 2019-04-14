@@ -26,15 +26,11 @@
                     <div id="overlay-1"></div>
                     <div id="overlay-2"></div>
 
-
                     <div id="player">
-
-
                         <h3 id="now-playing">NOW PLAYING</h3>
                         <h2 id="artist">{{song_artist}}</h2>
                         <h1 id="track">{{song_title}}</h1>
                     </div>
-
                 </div>
             </div>
         </slide-y-down-transition>
@@ -129,8 +125,8 @@
         z-index: 3;
         /*position: absolute;*/
         /*position: sticky;*/
-        bottom: 120px;
-        left: 120px;
+        bottom: 60px;
+        left: 60px;
     }
 
     #artist {
