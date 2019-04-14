@@ -79,7 +79,16 @@
                         player.addListener("player_state_changed", state => {
                             const currentTrack = state.track_window.current_track
                             if (currentTrack.name !== this.song_title || currentTrack.artists[0].name !== this.song_artist) {
-                                this.update(currentTrack.name, currentTrack.artists[0].name, currentTrack.album.images[2].url)
+                                let biggestImageWidth = 0
+                                let biggestImageUrl = null
+                                currentTrack.album.images.forEach((item) => {
+                                    if (item.width > biggestImageWidth) {
+                                        biggestImageWidth = item.width
+                                        biggestImageUrl = item.url
+                                    }
+                                })
+
+                                this.update(currentTrack.name, currentTrack.artists[0].name, biggestImageUrl)
                             }
                             // this.log = state.track_window.current_track
                             console.log(state)
@@ -117,7 +126,8 @@
         background-size: cover;
         position: absolute;
         z-index: -1;
-        background-position: 100% 50%;
+        background-position: 50% 50%;
+
     }
 
     #player {
