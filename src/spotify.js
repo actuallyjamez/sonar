@@ -1,15 +1,41 @@
 import loadJS from "load-js"
 
-const token = ''
+// Get the hash of the url
+const hash = window.location.hash
+    .substring(1)
+    .split('&')
+    .reduce(function (initial, item) {
+        if (item) {
+            var parts = item.split('=');
+            initial[parts[0]] = decodeURIComponent(parts[1]);
+        }
+        return initial;
+    }, {});
+window.location.hash = '';
+
+// Set token
+let _token = hash.access_token;
+
+const authEndpoint = 'https://accounts.spotify.com/authorize';
+
+const clientId = '58b89a14e594425eaa7f1ce3e16c57ed';
+const redirectUri = 'https://sonarapp.netlify.com';
+const scopes = [
+    'user-top-read', 'streaming'
+];
+
+if (!_token) {
+    window.location = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
+}
 
 let player = undefined
 const initPlayer = () => {
     console.log(player)
     if (player) return Promise.resolve(player)
     player = new Spotify.Player({
-        name: "Sonar",
+        name: "Sonar App",
         getOAuthToken: cb => {
-            cb(token)
+            cb(_token)
         }
     })
 
