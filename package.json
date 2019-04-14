@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "vue": "^2.6.10"
+    "load-js": "^3.0.3",
+    "vue": "^2.6.10",
+    "vue-script2": "^2.0.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
@@ -26,8 +28,7 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
+      "plugin:vue/essential"
     ],
     "rules": {},
     "parserOptions": {
