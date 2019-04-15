@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <div id="icon">
+        <div id="icon" class="logo-center">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                  height="64" width="64">
                 <defs>
@@ -25,6 +25,10 @@
 
         <div id="overlay-1"></div>
         <div id="overlay-2"></div>
+
+        <div id="help" class="bezier" :class="{ hidden: helpHidden }">
+            <h1>Select Sonar Player from "Available Devices" in the Spotify app.</h1>
+        </div>
 
 
         <Box :pose="playerVisible ? 'visible': 'hidden'">
@@ -89,11 +93,13 @@
                 backgroundIn: false,
                 backgroundOut: false,
                 backgroundBezier: true,
-                playerVisible: false
+                playerVisible: false,
+                helpHidden: false,
             }
         },
         methods: {
             update(title, artist, image) {
+                this.helpHidden = true
                 const updateBackground = () => {
                     // this.backgroundBezier = false
                     this.image = image
@@ -268,4 +274,18 @@
         transform: translateX(-50px) scale(1.1, 1.1) !important;
         opacity: 0 !important;
     }
+
+    #help {
+        position: absolute;
+        z-index: 3;
+        font-weight: bold;
+        bottom: 60px;
+        right: 60px;
+        font-size: 24px;
+    }
+
+    .hidden {
+        opacity: 0;
+    }
+
 </style>

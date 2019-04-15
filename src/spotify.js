@@ -6,7 +6,7 @@ const hash = window.location.hash
     .split('&')
     .reduce(function (initial, item) {
         if (item) {
-            var parts = item.split('=');
+            const parts = item.split('=')
             initial[parts[0]] = decodeURIComponent(parts[1]);
         }
         return initial;
@@ -19,8 +19,8 @@ let _token = hash.access_token;
 const authEndpoint = 'https://accounts.spotify.com/authorize';
 
 const clientId = '58b89a14e594425eaa7f1ce3e16c57ed';
-// const redirectUri = 'http://localhost:8080/';
-const redirectUri = 'https://sonarapp.netlify.com';
+const redirectUri = 'http://localhost:8080/';
+// const redirectUri = 'https://sonarapp.netlify.com';
 const scopes = [
     'streaming'
 ];
