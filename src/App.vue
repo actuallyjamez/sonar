@@ -58,7 +58,7 @@
                 },
                 hidden: {
                     opacity: 0,
-                    // x: '-100%',
+
                 }
             }),
             Item: posed.div({
@@ -74,8 +74,8 @@
                     opacity: 0,
                     y: 40,
                     transition: {
-                        ease: [0.655, 0.010, 0.115, 0.975],
-                        duration: 1333
+                        // ease: [0.655, 0.010, 0.115, 0.975],
+                        duration: 4000
                     }
                 }
             })
@@ -96,29 +96,28 @@
             update(title, artist, image) {
                 const updateBackground = () => {
                     // this.backgroundBezier = false
+                    this.image = image
+                    this.song_artist = artist
+                    this.song_title = title
                     this.backgroundIn = false
                     this.backgroundOut = false
                     this.backgroundBezier = true
-                    this.playerVisible = false
                     setTimeout(showBackground, 2000)
                 }
 
                 const showBackground = () => {
-                    this.image = image
                     this.backgroundIn = true
                     this.playerVisible = true
                 }
 
                 this.backgroundOut = true
                 setTimeout(updateBackground, 2000)
-
-                const thing = () => {
-                    this.song_artist = artist
-                    this.song_title = title
-                    this.image = image
-                    // this.playerVisible = true
-                }
-                setTimeout(thing, 1000)
+                //
+                // const thing = () => {
+                //     this.image = image
+                //     // this.playerVisible = true
+                // }
+                // setTimeout(thing, 1000)
                 // Create a new Promise and resolve after 2 seconds
                 // and do the other stuff here...
             },
