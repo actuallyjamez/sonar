@@ -102,7 +102,7 @@
                 this.helpHidden = true
                 const updateBackground = () => {
                     // this.backgroundBezier = false
-                    this.playerVisible = false
+                    if (this.playerFrameHidden) this.playerVisible = false
                     this.image = image
                     this.song_artist = artist
                     document.title = `${artist} with ${title} through sonar`
