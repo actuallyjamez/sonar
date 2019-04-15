@@ -20,7 +20,7 @@
             </svg>
         </div>
         <div id="background" :style="{ 'background-image': 'url(' + image + ')' }"
-             :class="{ in: backgroundIn, out: backgroundOut, bezier: backgroundBezier }">
+             :class="{ in: backgroundIn, out: backgroundOut, bezier: backgroundBezier, paused: playerPaused }">
         </div>
 
         <div id="overlay-1"></div>
@@ -34,7 +34,7 @@
         <Box :pose="playerVisible ? 'visible': 'hidden'">
             <div id="player">
                 <Item>
-                    <h3 id="now-playing">NOW PLAYING</h3>
+                    <h3 id="now-playing">{{playerPaused ? 'PAUSED': 'NOW PLAYING'}}</h3>
                 </Item>
                 <Item>
                     <h2 id="artist">{{song_artist}}</h2>
@@ -95,6 +95,7 @@
                 backgroundBezier: true,
                 playerVisible: false,
                 helpHidden: false,
+                playerPaused: false
             }
         },
         methods: {
@@ -138,6 +139,7 @@
                         // Playback status updates
                         player.addListener("player_state_changed", state => {
                             const currentTrack = state.track_window.current_track
+                            this.playerPaused = state.paused
                             if (currentTrack.name !== this.song_title || currentTrack.artists[0].name !== this.song_artist) {
                                 let biggestImageWidth = 0
                                 let biggestImageUrl = null
@@ -147,6 +149,7 @@
                                         biggestImageUrl = item.url
                                     }
                                 })
+
 
                                 this.update(currentTrack.name, currentTrack.artists[0].name, biggestImageUrl)
                             }
@@ -289,4 +292,9 @@
         opacity: 0;
     }
 
+    .paused {
+        opacity: .2 !important;
+        transform: scale(1, 1) !important;
+
+    }
 </style>
