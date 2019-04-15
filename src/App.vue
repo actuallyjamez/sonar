@@ -31,7 +31,7 @@
         </div>
 
 
-        <Box :pose="playerVisible ? 'visible': 'hidden'">
+        <Box :pose="playerVisible ? 'visible': 'hidden'" class="bezier" :class="{ hidden: playerFrameHidden }">
             <div id="player">
                 <Item>
                     <h3 id="now-playing">{{playerPaused ? 'PAUSED': 'NOW PLAYING'}}</h3>
@@ -77,10 +77,6 @@
                 hidden: {
                     opacity: 0,
                     y: 40,
-                    transition: {
-                        // ease: [0.655, 0.010, 0.115, 0.975],
-                        duration: 4000
-                    }
                 }
             })
         },
@@ -95,14 +91,18 @@
                 backgroundBezier: true,
                 playerVisible: false,
                 helpHidden: false,
-                playerPaused: false
+                playerPaused: false,
+                playerFrameHidden: false,
+                initialized: false
+
             }
         },
         methods: {
-            update(title, artist, image) {
+            update(title, artist, image, playerPaused) {
                 this.helpHidden = true
                 const updateBackground = () => {
                     // this.backgroundBezier = false
+                    this.playerVisible = false
                     this.image = image
                     this.song_artist = artist
                     document.title = `${artist} with ${title} through sonar`
@@ -110,24 +110,23 @@
                     this.backgroundIn = false
                     this.backgroundOut = false
                     this.backgroundBezier = true
+                    this.playerFrameHidden = false
                     setTimeout(showBackground, 2000)
                 }
 
                 const showBackground = () => {
                     this.backgroundIn = true
                     this.playerVisible = true
+                    this.initialized = true
+                }
+
+
+                if (playerPaused && this.initialized) {
+                    this.playerFrameHidden = true
                 }
 
                 this.backgroundOut = true
                 setTimeout(updateBackground, 2000)
-                //
-                // const thing = () => {
-                //     this.image = image
-                //     // this.playerVisible = true
-                // }
-                // setTimeout(thing, 1000)
-                // Create a new Promise and resolve after 2 seconds
-                // and do the other stuff here...
             },
         },
         beforeMount() {
@@ -136,10 +135,8 @@
                     .then(player => {
                         if (!player) console.warn("failed to init player")
 
-                        // Playback status updates
                         player.addListener("player_state_changed", state => {
                             const currentTrack = state.track_window.current_track
-                            this.playerPaused = state.paused
                             if (currentTrack.name !== this.song_title || currentTrack.artists[0].name !== this.song_artist) {
                                 let biggestImageWidth = 0
                                 let biggestImageUrl = null
@@ -149,12 +146,9 @@
                                         biggestImageUrl = item.url
                                     }
                                 })
-
-
-                                this.update(currentTrack.name, currentTrack.artists[0].name, biggestImageUrl)
+                                this.update(currentTrack.name, currentTrack.artists[0].name, biggestImageUrl, this.playerPaused)
                             }
-                            // this.log = state.track_window.current_track
-                            console.log(state)
+                            this.playerPaused = state.paused
                         })
 
                         // Error handling
@@ -198,9 +192,7 @@
 
     #player {
         position: absolute;
-        z-index: 3;
-        /*position: absolute;*/
-        /*position: sticky;*/
+        z-index: 600;
         bottom: 60px;
         left: 60px;
     }
@@ -234,7 +226,7 @@
 
     #overlay-2 {
         /*background: rgb(0,0,0);*/
-        z-index: 1;
+        /*z-index: 1;*/
         position: absolute;
         background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 100%);
         width: 100vw;
@@ -289,7 +281,7 @@
     }
 
     .hidden {
-        opacity: 0;
+        opacity: 0 !important;
     }
 
     .paused {
