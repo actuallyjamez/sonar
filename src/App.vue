@@ -104,6 +104,7 @@
                     // this.backgroundBezier = false
                     this.image = image
                     this.song_artist = artist
+                    document.title = `${artist} with ${title} through sonar`
                     this.song_title = title
                     this.backgroundIn = false
                     this.backgroundOut = false
