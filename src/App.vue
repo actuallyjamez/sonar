@@ -19,32 +19,66 @@
                 </g>
             </svg>
         </div>
-        <slide-y-down-transition>
-            <div v-show="show">
-                <div id="background" v-bind:style="{ 'background-image': 'url(' + image + ')' }">
+        <div id="background" :style="{ 'background-image': 'url(' + image + ')' }"
+             :class="{ in: backgroundIn, out: backgroundOut, bezier: backgroundBezier }">
+        </div>
 
-                    <div id="overlay-1"></div>
-                    <div id="overlay-2"></div>
+        <div id="overlay-1"></div>
+        <div id="overlay-2"></div>
 
-                    <div id="player">
-                        <h3 id="now-playing">NOW PLAYING</h3>
-                        <h2 id="artist">{{song_artist}}</h2>
-                        <h1 id="track">{{song_title}}</h1>
-                    </div>
-                </div>
+
+        <Box :pose="playerVisible ? 'visible': 'hidden'">
+            <div id="player">
+                <Item>
+                    <h3 id="now-playing">NOW PLAYING</h3>
+                </Item>
+                <Item>
+                    <h2 id="artist">{{song_artist}}</h2>
+                </Item>
+                <Item>
+                    <h1 id="track">{{song_title}}</h1>
+                </Item>
             </div>
-        </slide-y-down-transition>
+        </Box>
     </div>
 
 </template>
 <script>
     import initSpotify from "./spotify"
-    import {SlideYDownTransition} from 'vue2-transitions'
+    import posed from 'vue-pose'
 
     export default {
         name: 'app',
         components: {
-            SlideYDownTransition
+            Box: posed.div({
+                visible: {
+                    opacity: 1,
+                    staggerChildren: 250,
+                    beforeChildren: true,
+                },
+                hidden: {
+                    opacity: 0,
+                    // x: '-100%',
+                }
+            }),
+            Item: posed.div({
+                visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                        ease: [0.655, 0.010, 0.115, 0.975],
+                        duration: 1333
+                    }
+                },
+                hidden: {
+                    opacity: 0,
+                    y: 40,
+                    transition: {
+                        ease: [0.655, 0.010, 0.115, 0.975],
+                        duration: 1333
+                    }
+                }
+            })
         },
         "data"() {
             return {
@@ -52,17 +86,37 @@
                 song_artist: '',
                 log: '',
                 image: '',
-                show: false
+                backgroundIn: false,
+                backgroundOut: false,
+                backgroundBezier: true,
+                playerVisible: false
             }
         },
         methods: {
             update(title, artist, image) {
-                this.show = false
+                const updateBackground = () => {
+                    // this.backgroundBezier = false
+                    this.backgroundIn = false
+                    this.backgroundOut = false
+                    this.backgroundBezier = true
+                    setTimeout(showBackground, 2000)
+                }
+
+                const showBackground = () => {
+                    this.image = image
+                    this.backgroundIn = true
+                    this.playerVisible = true
+                }
+                this.playerVisible = false
+                this.backgroundOut = true
+                setTimeout(updateBackground, 2000)
+
+
                 const thing = () => {
                     this.song_artist = artist
                     this.song_title = title
                     this.image = image
-                    this.show = true
+                    // this.playerVisible = true
                 }
                 setTimeout(thing, 1000)
                 // Create a new Promise and resolve after 2 seconds
@@ -100,8 +154,8 @@
                         player.addListener("account_error", this.errorHandler)
                         player.addListener("initialization_error", this.errorHandler)
 
-                        this.$__player = player
-                        this.error = undefined
+                        // this.$__player = player
+                        // this.error = undefined
                     })
                     .catch(e => console.warn(e))
             }, 5000)
@@ -121,13 +175,16 @@
     }
 
     #background {
-        width: 100vw;
+        /*width: 100%;*/
         height: 100vh;
         background-size: cover;
-        position: absolute;
+        /*position: absolute;*/
         z-index: -1;
         background-position: 50% 50%;
-
+        /*margin-right: 100px;*/
+        opacity: 0;
+        overflow: hidden;
+        transform: translateX(50px) scale(1.1, 1.1);
     }
 
     #player {
@@ -163,15 +220,17 @@
         background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 100%);
         width: 100vw;
         height: 100vh;
+        bottom: 0;
     }
 
     #overlay-2 {
         /*background: rgb(0,0,0);*/
-        z-index: 2;
-
+        z-index: 1;
+        position: absolute;
         background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 100%);
         width: 100vw;
         height: 100vh;
+        bottom: 0;
     }
 
     #icon {
@@ -181,4 +240,33 @@
         left: 60px;
     }
 
+
+    body {
+        padding: 0;
+        margin: 0;
+        background-color: black;
+        position: relative;
+        overflow: hidden;;
+    }
+
+    .bezier {
+        -webkit-transition: all 2000ms cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        -moz-transition: all 2000ms cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        -o-transition: all 2000ms cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        transition: all 2000ms cubic-bezier(0.655, 0.010, 0.115, 0.975); /* custom */
+        -webkit-transition-timing-function: cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        -moz-transition-timing-function: cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        -o-transition-timing-function: cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        transition-timing-function: cubic-bezier(0.655, 0.010, 0.115, 0.975); /* custom */
+    }
+
+    .in {
+        opacity: 1 !important;
+        transform: scale(1.12, 1.12) !important;
+    }
+
+    .out {
+        transform: translateX(-50px) scale(1.1, 1.1) !important;
+        opacity: 0 !important;
+    }
 </style>
