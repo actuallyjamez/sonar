@@ -99,6 +99,7 @@
                     this.backgroundIn = false
                     this.backgroundOut = false
                     this.backgroundBezier = true
+                    this.playerVisible = false
                     setTimeout(showBackground, 2000)
                 }
 
@@ -107,10 +108,9 @@
                     this.backgroundIn = true
                     this.playerVisible = true
                 }
-                this.playerVisible = false
+
                 this.backgroundOut = true
                 setTimeout(updateBackground, 2000)
-
 
                 const thing = () => {
                     this.song_artist = artist
