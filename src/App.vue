@@ -121,9 +121,8 @@
                 }
 
 
-                if (playerPaused && this.initialized) {
-                    this.playerFrameHidden = true
-                }
+                if (playerPaused && this.initialized) this.playerFrameHidden = true
+
 
                 this.backgroundOut = true
                 setTimeout(updateBackground, 2000)
@@ -198,19 +197,19 @@
     }
 
     #artist {
-        font-size: 64px;
+        font-size: 3.4em;
         font-weight: bold;
     }
 
     #track {
-        font-size: 36px;
+        font-size: 1.7em;
         font-weight: bold;
         padding-top: 18px;
 
     }
 
     #now-playing {
-        font-size: 20px;
+        font-size: 1em;
         font-weight: bolder;
         padding-bottom: 15px;
     }
