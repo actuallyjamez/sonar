@@ -46,8 +46,8 @@
         mounted() {
             this.bar = new ProgressBar.Circle(container, {
                 strokeWidth: 15,
-                // easing: BezierEasing(0.655, 0.010, 0.115, 0.975),
-                easing: 'easeInOut',
+                easing: BezierEasing(0.655, 0.010, 0.115, 0.975),
+                // easing: 'easeInOut',
                 duration: 1400,
                 color: '#fff',
                 trailColor: '#282828',
