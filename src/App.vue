@@ -1,23 +1,25 @@
 <template>
     <div id="app">
         <div id="icon" class="logo-center">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                 height="64" width="64">
-                <defs>
-                    <ellipse id="ellipse-1" opacity="1" rx="32" ry="32" cx="32" cy="32"></ellipse>
-                    <mask id="mask-2" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0"
-                          y="0">
-                        <rect opacity="1" x="0" y="0" width="64" height="64" fill="black"></rect>
-                        <use xlink:href="#ellipse-1" fill="white"></use>
-                    </mask>
-                </defs>
-                <g opacity="1">
-                    <use xlink:href="#ellipse-1" fill-opacity="0" stroke="rgb(255,255,255)"
-                         stroke-opacity="1"
-                         stroke-width="20" stroke-linecap="butt" stroke-linejoin="miter"
-                         mask="url(#mask-2)"></use>
-                </g>
-            </svg>
+            <ProgressLogo :progress="progress"/>
+
+            <!--            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"-->
+            <!--                 height="64" width="64">-->
+            <!--                <defs>-->
+            <!--                    <ellipse id="ellipse-1" opacity="1" rx="32" ry="32" cx="32" cy="32"></ellipse>-->
+            <!--                    <mask id="mask-2" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0"-->
+            <!--                          y="0">-->
+            <!--                        <rect opacity="1" x="0" y="0" width="64" height="64" fill="black"></rect>-->
+            <!--                        <use xlink:href="#ellipse-1" fill="white"></use>-->
+            <!--                    </mask>-->
+            <!--                </defs>-->
+            <!--                <g opacity="1">-->
+            <!--                    <use xlink:href="#ellipse-1" fill-opacity="0" stroke="rgb(255,255,255)"-->
+            <!--                         stroke-opacity="1"-->
+            <!--                         stroke-width="20" stroke-linecap="butt" stroke-linejoin="miter"-->
+            <!--                         mask="url(#mask-2)"></use>-->
+            <!--                </g>-->
+            <!--            </svg>-->
         </div>
         <div id="background" :style="{ 'background-image': 'url(' + image + ')' }"
              :class="{ in: backgroundIn, out: backgroundOut, bezier: backgroundBezier, paused: playerPaused }">
@@ -50,6 +52,7 @@
 <script>
     import initSpotify from "./spotify"
     import posed from 'vue-pose'
+    import ProgressLogo from "@/components/ProgressLogo"
 
     export default {
         name: 'app',
@@ -78,7 +81,8 @@
                     opacity: 0,
                     y: 40,
                 }
-            })
+            }),
+            ProgressLogo
         },
         "data"() {
             return {
@@ -91,9 +95,12 @@
                 backgroundBezier: true,
                 playerVisible: false,
                 helpHidden: false,
-                playerPaused: false,
+                playerPaused: true,
                 playerFrameHidden: false,
-                initialized: false
+                initialized: false,
+                progress: 20,
+                trackDuration: null,
+                trackPostion: null
 
             }
         },
@@ -128,6 +135,14 @@
                 setTimeout(updateBackground, 2000)
             },
         },
+        mounted() {
+            setInterval(() => {
+                if (!this.playerPaused && this.progress < 100)
+                    this.trackPostion += 1000
+                    this.progress += 1
+                    this.progress = this.trackPostion / this.trackDuration
+            }, 1000)
+        },
         beforeMount() {
             window.setTimeout(() => {
                 initSpotify()
@@ -147,6 +162,10 @@
                                 })
                                 this.update(currentTrack.name, currentTrack.artists[0].name, biggestImageUrl, this.playerPaused)
                             }
+                            console.log(state)
+                            this.trackDuration = state.duration
+                            this.trackPostion = state.position
+                            this.progress = state.position / state.duration
                             this.playerPaused = state.paused
                         })
 
