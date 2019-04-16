@@ -23,7 +23,6 @@
         },
         watch: {
             progress: function (newVal, oldVal) { // watch it
-                console.log('Prop changed: ', newVal, ' | was: ', oldVal)
                 if (this.animating) {
                     this.cache = newVal
                 } else {

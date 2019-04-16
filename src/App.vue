@@ -34,16 +34,24 @@
 
 
         <Box :pose="playerVisible ? 'visible': 'hidden'" class="bezier" :class="{ hidden: playerFrameHidden }">
-            <div id="player">
-                <Item>
-                    <h3 id="now-playing">{{playerPaused ? 'PAUSED': 'NOW PLAYING'}}</h3>
-                </Item>
-                <Item>
-                    <h2 id="artist">{{song_artist}}</h2>
-                </Item>
-                <Item>
-                    <h1 id="track">{{song_title}}</h1>
-                </Item>
+            <div id="player" style="display: flex;">
+                <div style="width: 200px; margin-right: 20px">
+                    <Item>
+                        <img style="width: 100%" :src="image" alt="">
+                    </Item>
+                </div>
+
+                <div style="flex-grow: 1; align-self: flex-end;">
+                    <Item>
+                        <h3 id="now-playing">{{playerPaused ? 'PAUSED': 'NOW PLAYING'}}</h3>
+                    </Item>
+                    <Item>
+                        <h2 id="artist">{{song_artist}}</h2>
+                    </Item>
+                    <Item>
+                        <h1 id="track">{{song_title_display}}</h1>
+                    </Item>
+                </div>
             </div>
         </Box>
     </div>
@@ -88,6 +96,7 @@
             return {
                 song_title: '',
                 song_artist: '',
+                song_title_display: '',
                 log: '',
                 image: '',
                 backgroundIn: false,
@@ -114,6 +123,7 @@
                     this.song_artist = artist
                     document.title = `${artist} with ${title} through sonar`
                     this.song_title = title
+                    this.song_title_display = `with ${title}`
                     this.backgroundIn = false
                     this.backgroundOut = false
                     this.backgroundBezier = true
@@ -127,9 +137,8 @@
                     this.initialized = true
                 }
 
-
-                if (playerPaused && this.initialized) this.playerFrameHidden = true
-
+                // if (playerPaused && this.initialized)
+                this.playerFrameHidden = true
 
                 this.backgroundOut = true
                 setTimeout(updateBackground, 2000)
@@ -139,8 +148,8 @@
             setInterval(() => {
                 if (!this.playerPaused && this.progress < 100)
                     this.trackPostion += 1000
-                    this.progress += 1
-                    this.progress = this.trackPostion / this.trackDuration
+                this.progress += 1
+                this.progress = this.trackPostion / this.trackDuration
             }, 1000)
         },
         beforeMount() {
@@ -160,6 +169,7 @@
                                         biggestImageUrl = item.url
                                     }
                                 })
+                                console.log('hmmm')
                                 this.update(currentTrack.name, currentTrack.artists[0].name, biggestImageUrl, this.playerPaused)
                             }
                             console.log(state)
@@ -183,7 +193,6 @@
         },
     }
 </script>
-
 <style>
     #app {
         font-family: 'Open Sans', sans-serif;
@@ -206,6 +215,8 @@
         opacity: 0;
         overflow: hidden;
         transform: translateX(50px) scale(1.1, 1.1);
+        filter: blur(8px);
+        -webkit-filter: blur(8px);
     }
 
     #player {
