@@ -31,7 +31,7 @@ if (!_token) {
 
 let player = undefined
 const initPlayer = () => {
-    console.log(player)
+    // console.log(player)
     if (player) return Promise.resolve(player)
     player = new Spotify.Player({
         name: "Sonar App",
