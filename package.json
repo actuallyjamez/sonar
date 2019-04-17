@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "bezier-easing": "^2.1.0",
-    "core-js": "^2.6.5",
     "load-js": "^3.0.3",
     "progressbar.js": "^1.0.1",
     "vue": "^2.6.10",

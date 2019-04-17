@@ -21,9 +21,7 @@ const authEndpoint = 'https://accounts.spotify.com/authorize';
 const clientId = '58b89a14e594425eaa7f1ce3e16c57ed';
 // const redirectUri = 'http://localhost:8080/';
 const redirectUri = 'https://sonarapp.netlify.com';
-const scopes = [
-    'streaming'
-];
+const scopes = ["streaming", "user-read-birthdate", "user-read-email", "user-read-private"];
 
 if (!_token) {
     window.location = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
