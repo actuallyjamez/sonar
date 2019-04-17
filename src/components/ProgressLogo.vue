@@ -43,7 +43,7 @@
             }
         },
         mounted() {
-            this.bar = new ProgressBar.Circle(containerer, {
+            this.bar = new ProgressBar.Circle(container, {
                 strokeWidth: 15,
                 easing: BezierEasing(0.655, 0.010, 0.115, 0.975),
                 // easing: 'easeInOut',
