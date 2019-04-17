@@ -145,6 +145,7 @@
         padding-bottom: 15px;
     }
 
+    /*noinspection CssUnusedSymbol*/
     .visible {
         opacity: 1 !important;
     }

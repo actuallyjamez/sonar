@@ -23,12 +23,8 @@
             paused: Boolean
         },
         watch: {
-            image: function (newVal, oldVal) {
+            image: function (newVal) {
                 this.update(newVal)
-            },
-            paused: function (newVal, oldVal) {
-                console.log(newVal)
-                this.playerPaused = newVal
             }
         },
         methods: {
@@ -73,11 +69,13 @@
         transform: translateX(50px) scale(1.07, 1.07);
     }
 
+    /*noinspection CssUnusedSymbol*/
     .in {
         opacity: 1 !important;
         transform: scale(1.12, 1.12) !important;
     }
 
+    /*noinspection CssUnusedSymbol*/
     .out {
         transform: translateX(-50px) scale(1.07, 1.07) !important;
         opacity: 0 !important;
@@ -99,6 +97,7 @@
         bottom: 0;
     }
 
+    /*noinspection CssUnusedSymbol*/
     .paused {
         opacity: .2 !important;
         transform: scale(1, 1) !important;

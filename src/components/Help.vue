@@ -34,6 +34,7 @@
         font-size: 24px;
     }
 
+    /*noinspection CssUnusedSymbol*/
     .hidden {
         opacity: 0 !important;
     }

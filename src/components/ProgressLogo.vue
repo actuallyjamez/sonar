@@ -22,7 +22,7 @@
             progress: Number
         },
         watch: {
-            progress: function (newVal, oldVal) { // watch it
+            progress: function (newVal) { // watch it
                 if (this.animating) {
                     this.cache = newVal
                 } else {
@@ -43,7 +43,7 @@
             }
         },
         mounted() {
-            this.bar = new ProgressBar.Circle(container, {
+            this.bar = new ProgressBar.Circle(containerer, {
                 strokeWidth: 15,
                 easing: BezierEasing(0.655, 0.010, 0.115, 0.975),
                 // easing: 'easeInOut',
