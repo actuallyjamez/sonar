@@ -2,11 +2,11 @@
     <div id="player-frame" class="bezier" :class="{ visible: playerFrameVisible }">
         <Box :pose="playerVisible ? 'visible': 'hidden'">
             <div id="player" style="display: flex;">
-                <div style="width: 200px; margin-right: 20px">
-                    <Item>
-                        <img style="width: 100%" :src="imageValue" alt="">
-                    </Item>
-                </div>
+<!--                <div style="width: 200px; margin-right: 20px">-->
+<!--                    <Item>-->
+<!--                        <img style="width: 100%" :src="imageValue" alt="">-->
+<!--                    </Item>-->
+<!--                </div>-->
                 <div style="flex-grow: 1; align-self: flex-end;">
                     <Item>
                         <h3 id="now-playing">{{paused ? 'PAUSED': 'NOW PLAYING'}}</h3>
