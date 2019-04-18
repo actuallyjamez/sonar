@@ -5,6 +5,7 @@
         </div>
         <background :image="image" :paused="playerPaused"></background>
         <Player :title="song_title" :artist="song_artist" :image="image" :paused="playerPaused"></Player>
+        <NextUp :title="next_song_title" :artist="next_song_artist"></NextUp>
         <Help :hidden="helpHidden"></Help>
     </div>
 </template>
@@ -14,6 +15,7 @@
     import background from "@/components/Background"
     import Player from "@/components/Player"
     import Help from "@/components/Help"
+    import NextUp from "@/components/NextUp"
 
     export default {
         name: 'app',
@@ -21,19 +23,22 @@
             ProgressLogo,
             background,
             Player,
-            Help
-
+            Help,
+            NextUp
         },
         "data"() {
             return {
                 song_title: '',
                 song_artist: '',
+                next_song_title: '',
+                next_song_artist: '',
                 image: '',
                 playerPaused: true,
                 progress: 1,
                 trackDuration: null,
                 trackPostion: null,
                 helpHidden: false
+
             }
         },
         methods: {
@@ -60,6 +65,7 @@
                         if (!player) console.warn("failed to init player")
                         player.addListener("player_state_changed", state => {
                             const currentTrack = state.track_window.current_track
+                            const nextTrack = state.track_window.next_tracks
                             if (currentTrack.name !== this.song_title || currentTrack.artists[0].name !== this.song_artist) {
                                 let biggestImageWidth = 0
                                 let biggestImageUrl = null
@@ -70,7 +76,15 @@
                                     }
                                 })
                                 this.update(currentTrack.name, currentTrack.artists[0].name, biggestImageUrl, this.playerPaused)
+                                if (nextTrack.length !== 0) {
+                                    this.next_song_artist = nextTrack[0].artists[0].name
+                                    this.next_song_title = nextTrack[0].name
+                                } else {
+                                    this.next_song_artist =''
+                                    this.next_song_title = ''
+                                }
                             }
+                            console.log(state)
                             this.trackDuration = state.duration
                             this.trackPostion = state.position
                             this.progress = state.position / state.duration

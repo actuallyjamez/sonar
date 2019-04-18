@@ -1,15 +1,10 @@
 <template>
     <div id="player-frame" class="bezier" :class="{ visible: playerFrameVisible }">
         <Box :pose="playerVisible ? 'visible': 'hidden'">
-            <div id="player" style="display: flex;">
-<!--                <div style="width: 200px; margin-right: 20px">-->
-<!--                    <Item>-->
-<!--                        <img style="width: 100%" :src="imageValue" alt="">-->
-<!--                    </Item>-->
-<!--                </div>-->
-                <div style="flex-grow: 1; align-self: flex-end;">
+            <div id="player">
+                <div>
                     <Item>
-                        <h3 id="now-playing">{{paused ? 'PAUSED': 'NOW PLAYING'}}</h3>
+                        <h3 id="now-playing">NEXT UP</h3>
                     </Item>
                     <Item>
                         <h2 id="artist">{{artistValue}}</h2>
@@ -27,7 +22,7 @@
     import posed from 'vue-pose'
 
     export default {
-        name: "Player",
+        name: "NextUp",
         data() {
             return {
                 titleValue: '',
@@ -43,16 +38,16 @@
                     opacity: 1,
                     staggerChildren: 250,
                     beforeChildren: true,
+                    delay: 300
                 },
                 hidden: {
                     opacity: 0,
-
                 }
             }),
             Item: posed.div({
                 visible: {
                     opacity: 1,
-                    y: 0,
+                    x: 0,
                     transition: {
                         ease: [0.655, 0.010, 0.115, 0.975],
                         duration: 1333
@@ -60,7 +55,7 @@
                 },
                 hidden: {
                     opacity: 0,
-                    y: 40,
+                    x: 40,
                 }
             }),
         },
@@ -75,7 +70,6 @@
                 // this.titleValue = newVal
                 this.update(newVal, this.artist, this.image)
             },
-
             artist: function (newVal) {
                 this.update(this.title, newVal, this.image)
             },
@@ -96,6 +90,7 @@
                 }
 
                 const showPlayer = () => {
+                    if (this.title !== '' || this.artist !== '')
                     this.playerVisible = true
                 }
 
@@ -126,7 +121,9 @@
         position: absolute;
         z-index: 600;
         bottom: 60px;
-        left: 60px;
+        right: 60px;
+        opacity: .3;
+        text-align: right;
     }
 
     #artist {
