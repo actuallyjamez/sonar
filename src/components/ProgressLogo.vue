@@ -1,5 +1,5 @@
 <template>
-    <div id="container"></div>
+    <div id="container" class="bezier" :class="{ visible: visible }"></div>
 </template>
 
 <script>
@@ -14,7 +14,8 @@
                 bar: null,
                 animating: false,
                 cache: null,
-                currentCache: null
+                currentCache: null,
+                visible: false
 
             }
         },
@@ -26,6 +27,7 @@
                 if (this.animating) {
                     this.cache = newVal
                 } else {
+                    this.visible = true
                     this.updateProgress(newVal)
                 }
             }
@@ -61,7 +63,22 @@
 </script>
 
 <style scoped>
-    /*#container {*/
-    /*    width: 64px;*/
-    /*}*/
+    .bezier {
+        -webkit-transition: all 2000ms cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        -moz-transition: all 2000ms cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        -o-transition: all 2000ms cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        transition: all 2000ms cubic-bezier(0.655, 0.010, 0.115, 0.975); /* custom */
+        -webkit-transition-timing-function: cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        -moz-transition-timing-function: cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        -o-transition-timing-function: cubic-bezier(0.655, 0.010, 0.115, 0.975);
+        transition-timing-function: cubic-bezier(0.655, 0.010, 0.115, 0.975); /* custom */
+    }
+
+    #container {
+        opacity: 0;
+    }
+
+    .visible {
+        opacity: 1 !important;
+    }
 </style>
