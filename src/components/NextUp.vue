@@ -38,7 +38,7 @@
                     opacity: 1,
                     staggerChildren: 250,
                     beforeChildren: true,
-                    delay: 300
+                    delay: 500
                 },
                 hidden: {
                     opacity: 0,
@@ -127,13 +127,13 @@
     }
 
     #artist {
-        font-size: 3.4em;
-        font-weight: bold;
+        font-size: 2.9em;
+        font-weight: 700;
     }
 
     #track {
-        font-size: 1.7em;
-        font-weight: bold;
+        font-size: 1.2em;
+        font-weight: 700;
         padding-top: 18px;
 
     }

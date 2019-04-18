@@ -34,7 +34,7 @@
                 next_song_artist: '',
                 image: '',
                 playerPaused: true,
-                progress: 1,
+                progress: null,
                 trackDuration: null,
                 trackPostion: null,
                 helpHidden: false
@@ -76,19 +76,19 @@
                                     }
                                 })
                                 this.update(currentTrack.name, currentTrack.artists[0].name, biggestImageUrl, this.playerPaused)
-                                if (nextTrack.length !== 0) {
-                                    this.next_song_artist = nextTrack[0].artists[0].name
-                                    this.next_song_title = nextTrack[0].name
-                                } else {
-                                    this.next_song_artist =''
-                                    this.next_song_title = ''
-                                }
                             }
-                            console.log(state)
+                            if (nextTrack.length !== 0) {
+                                this.next_song_artist = nextTrack[0].artists[0].name
+                                this.next_song_title = nextTrack[0].name
+                            } else {
+                                this.next_song_artist =''
+                                this.next_song_title = ''
+                            }
                             this.trackDuration = state.duration
                             this.trackPostion = state.position
                             this.progress = state.position / state.duration
                             this.playerPaused = state.paused
+                            console.log(state)
                         })
 
                         // Error handling

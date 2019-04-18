@@ -77,6 +77,7 @@
         opacity: 0;
     }
 
+    /*noinspection CssUnusedSymbol*/
     .visible {
         opacity: 1 !important;
     }
