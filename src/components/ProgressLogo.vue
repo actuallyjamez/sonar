@@ -26,7 +26,7 @@
             progress: function (newVal) { // watch it
                 if (this.animating) {
                     this.cache = newVal
-            } else {
+                } else {
                     this.visible = true
                     this.updateProgress(newVal)
                 }
@@ -34,6 +34,7 @@
         },
         methods: {
             updateProgress(value) {
+                this.animating = true
                 this.bar.animate((value === 0) ? 0.01 : value, () => {
                     this.animating = false
                     if (this.cache !== this.currentCache) {
