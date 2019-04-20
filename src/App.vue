@@ -88,7 +88,6 @@
                             this.trackPostion = state.position
                             this.progress = state.position / state.duration
                             this.playerPaused = state.paused
-                            console.log(state)
                         })
 
                         // Error handling
