@@ -29,7 +29,7 @@
         position: absolute;
         z-index: 3;
         font-weight: bold;
-        font-size: 0.9em;
+        font-size: 1.6em;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
