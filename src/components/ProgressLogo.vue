@@ -76,6 +76,7 @@
 
     #container {
         opacity: 0;
+        width: 64px;
     }
 
     /*noinspection CssUnusedSymbol*/
