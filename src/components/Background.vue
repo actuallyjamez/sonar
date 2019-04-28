@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="background" :style="{ 'background-image': 'url(' + currentImage + ')' }"
+        <div id="background" :style="{ 'background-image': `url(${currentImage})` }"
              :class="{ in: viewIn, out: viewOut, paused: paused }" class="bezier">
         </div>
         <div id="overlay-1"></div>
@@ -99,7 +99,7 @@
 
     /*noinspection CssUnusedSymbol*/
     .paused {
-        opacity: .2 !important;
+        opacity: .4 !important;
         transform: scale(1, 1) !important;
         /*filter: blur(32px);*/
         /*-webkit-filter: blur(32px);*/
