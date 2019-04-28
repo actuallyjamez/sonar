@@ -75,6 +75,14 @@ const initSpotify = function () {
 export default () => {
     return initSpotify()
         .then(() => {
+            const iframe = document.querySelector('iframe[src="https://sdk.scdn.co/embedded/index.html"]');
+
+            if (iframe) {
+                iframe.style.display = 'block';
+                iframe.style.position = 'absolute';
+                iframe.style.top = '-1000px';
+                iframe.style.left = '-1000px';
+            }
             return initPlayer()
         })
         .catch(e => console.warn(e))
