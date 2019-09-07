@@ -20,7 +20,7 @@ const authEndpoint = 'https://accounts.spotify.com/authorize';
 
 const clientId = '58b89a14e594425eaa7f1ce3e16c57ed';
 // const redirectUri = 'http://localhost:8080/';
-const redirectUri = 'https://sonarapp.netlify.com';
+const redirectUri = 'https://sonar.now.sh';
 const scopes = ["streaming", "user-read-birthdate", "user-read-email", "user-read-private"];
 
 if (!_token) {
